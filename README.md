@@ -27,9 +27,8 @@ Use it like so:
 (require 'zookeeper 'tierlieb 'tierlieb.consistent-hash)
 
 ;; configuration
-
 (def zookeeper-address "127.0.0.1:2181")
-(def cluster-name "xmycluster")
+(def cluster-name "mycluster")
 (def my-host "192.168.40.50") ;; my own ip address
 (def my-port 12345)
 (def member-name (str my-host \: my-port))
@@ -60,6 +59,6 @@ The hashcode map is a simple clojure map that contains hashcode to cluster membe
  1959512508 "192.168.40.50:12345-0000000000"}
 ```
 
-The part of the member information after the hyphen is the member index as assigned by apache zookeeper. It is not necessary for clients connecting to the cluster to know this, but members of the cluster may use it e.g. to determine who is eldest and assigning a special role to that member.
+The part of the member before the hyphen is the one you provided when calling `join-cluster`. The part after the hyphen is the member index as assigned by apache zookeeper. It is not necessary for clients using the cluster to know this index, but members of the cluster may use it e.g. to determine who is eldest in order to  assign a special role to that member.
 
 The above hashcode-map btw is a good example why "3" is probably too low, because the randomly chosen hash keys might occasionally end up being really close, like they do in this case, resulting in an uneven distribution (once you add more members).
