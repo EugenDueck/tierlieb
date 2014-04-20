@@ -3,14 +3,14 @@ tierlieb
 
 A clojure library that makes writing (consistent-hashing based) clusters using zoo-keeper easy.
 
-What do you need to build a clustered server?
+In general, what do you need in order to run a clustered server?
 
 * maintain a list of members
 * determine what member is resposponsible for doing what
 
 *tierlieb* uses *Apache ZooKeeper* to maintain such a member list and makes that list available to its members. Members can join and leave (orderly or because of a problem) clusters at any time.
 
-In addition to simple membership in a cluster, *tierlieb* can also create and manage mappings of keys to members to be used for consistent hashing. It's still your job to make use of those keys, e.g. by distributing them to clients of your cluster.
+In addition to managing simple membership in a cluster, *tierlieb* can also create and manage mappings of keys to members to be used for consistent hashing. It's still your job to make use of those keys, e.g. by distributing the mapping to clients of your cluster.
 
 # Usage #
 ---------
@@ -45,7 +45,6 @@ Use it like so:
    (fn member-left-callback [cluster member-name] (prn "** left" member-name))))
 
 ;; setup consistent hashing
-
 (tierlieb.consistent-hash/setup-consistent-hashing tierlieb-cluster number-of-consistent-hash-keys
  (fn hashcode-map-changed-callback [& params]
   (prn "hashcode-map" (tierlieb.consistent-hash/get-hashcode-map tierlieb-cluster))))
