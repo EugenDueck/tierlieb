@@ -29,7 +29,7 @@ Use it like so:
 ;; configuration
 
 (def zookeeper-address "127.0.0.1:2181")
-(def cluster-name "mycluster")
+(def cluster-name "xmycluster")
 (def my-host "192.168.40.50") ;; my own ip address
 (def my-port 12345)
 (def member-name (str my-host \: my-port))
@@ -55,9 +55,11 @@ Now it is your job to use the hashcode-map, that you can retrieve via `get-hashc
 The hashcode map is a simple clojure map that contains hashcode to cluster member entries. If you chose "3" instead of "20" like we did in the sample, running the sample with a single member you might end up with the following:
 
 ```clojure
-{1782634599 "192.168.40.50:12345-0000000004",
- 1958226340 "192.168.40.50:12345-0000000004",
- 1959512508 "192.168.40.50:12345-0000000004"}
+{1782634599 "192.168.40.50:12345-0000000000",
+ 1958226340 "192.168.40.50:12345-0000000000",
+ 1959512508 "192.168.40.50:12345-0000000000"}
 ```
 
-This is a good example why "3" is probably too low, because the randomly chosen hash keys might occasionally end up being really close, like they do in this case, resulting in an uneven distribution (once you add more members).
+The part of the member information after the hyphen is the member index as assigned by apache zookeeper. It is not necessary for clients connecting to the cluster to know this, but members of the cluster may use it e.g. to determine who is eldest and assigning a special role to that member.
+
+The above hashcode-map btw is a good example why "3" is probably too low, because the randomly chosen hash keys might occasionally end up being really close, like they do in this case, resulting in an uneven distribution (once you add more members).
