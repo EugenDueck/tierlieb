@@ -1,4 +1,4 @@
-(defproject eugendueck/tierlieb "0.2"
+(defproject eugendueck/tierlieb "0.3-SNAPSHOT"
   :description "A clojure library that makes writing (consistent-hashing based) clusters using zoo-keeper easy"
   :url "https://github.com/EugenDueck/tierlieb"
   :license {:name "Eclipse Public License"
